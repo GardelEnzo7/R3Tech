@@ -1,0 +1,123 @@
+@import "@fontsource/plus-jakarta-sans/400.css";
+@import "@fontsource/plus-jakarta-sans/500.css";
+@import "@fontsource/plus-jakarta-sans/600.css";
+@import "@fontsource/plus-jakarta-sans/700.css";
+@import "@fontsource/rajdhani/500.css";
+@import "@fontsource/rajdhani/600.css";
+@import "@fontsource/rajdhani/700.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+  --font-body: "Plus Jakarta Sans";
+  --font-display: "Rajdhani";
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  overflow-x: hidden;
+  background: #0b1120;
+  color: #f8fafc;
+  font-family: var(--font-body), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-feature-settings: "ss01" on, "cv01" on;
+}
+
+h1,
+h2,
+h3,
+.brand-type {
+  font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+}
+
+::selection {
+  background: rgba(59, 130, 246, 0.38);
+  color: #ffffff;
+}
+
+.noise {
+  background-image:
+    radial-gradient(rgba(255, 255, 255, 0.075) 0.7px, transparent 0.7px),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.035), transparent 32%);
+  background-size: 18px 18px, 100% 100%;
+}
+
+.glass {
+  border: 1px solid rgba(59, 130, 246, 0.18);
+  background:
+    linear-gradient(135deg, rgba(13, 18, 31, 0.88), rgba(11, 17, 32, 0.62)),
+    radial-gradient(circle at 12% 0%, rgba(59, 130, 246, 0.14), transparent 34%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(18px);
+}
+
+.technical-panel {
+  position: relative;
+  border: 1px solid rgba(59, 130, 246, 0.24);
+  background:
+    linear-gradient(145deg, rgba(12, 17, 29, 0.94), rgba(8, 13, 24, 0.9)),
+    radial-gradient(circle at 20% 0%, rgba(59, 130, 246, 0.18), transparent 34%);
+  box-shadow:
+    0 26px 80px rgba(0, 0, 0, 0.34),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    inset 0 -1px 0 rgba(59, 130, 246, 0.16);
+}
+
+.technical-panel::before,
+.technical-panel::after {
+  content: "";
+  position: absolute;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.95), transparent);
+  pointer-events: none;
+}
+
+.technical-panel::before {
+  left: 24px;
+  right: 42%;
+  top: -1px;
+}
+
+.technical-panel::after {
+  left: 45%;
+  right: 24px;
+  bottom: -1px;
+}
+
+.edge-cut {
+  clip-path: polygon(0 0, calc(100% - 34px) 0, 100% 34px, 100% 100%, 34px 100%, 0 calc(100% - 34px));
+}
+
+.card-light {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  opacity: 0;
+  transition: opacity 200ms ease;
+  pointer-events: none;
+}
+
+.group:hover .card-light {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
