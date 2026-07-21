@@ -121,3 +121,79 @@ h3,
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ============================
+   FLOAT ANIMATIONS
+============================ */
+
+@keyframes floatUp {
+
+    0%,100%{
+        transform:translateY(0px);
+    }
+
+    50%{
+        transform:translateY(-10px);
+    }
+
+}
+
+@keyframes floatDown {
+
+    0%,100%{
+        transform:translateY(0px);
+    }
+
+    50%{
+        transform:translateY(10px);
+    }
+
+}
+
+@keyframes floatLeft {
+
+    0%,100%{
+        transform:translateX(0px);
+    }
+
+    50%{
+        transform:translateX(-8px);
+    }
+
+}
+
+@keyframes floatRight {
+
+    0%,100%{
+        transform:translateX(0px);
+    }
+
+    50%{
+        transform:translateX(8px);
+    }
+
+}
+
+.float-code{
+
+    animation:floatUp 7s ease-in-out infinite;
+
+}
+
+.float-online{
+
+    animation:floatRight 6s ease-in-out infinite;
+
+}
+
+.float-performance{
+
+    animation:floatDown 8s ease-in-out infinite;
+
+}
+
+.float-icon{
+
+    animation:floatLeft 6.5s ease-in-out infinite;
+
+}

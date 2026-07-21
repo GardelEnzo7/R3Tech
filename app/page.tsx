@@ -26,6 +26,7 @@ import {
 } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 
+
 const whatsappUrl = "https://wa.me/5493412513986?text=Hola%20R3%20Tech%2C%20quiero%20solicitar%20un%20presupuesto.";
 
 const navItems = [
@@ -424,23 +425,24 @@ function MobileMenuOverlay({ open, onClose, buttonRef }: { open: boolean; onClos
 
 function TechIllustration() {
   return (
-    <div className="relative mx-auto aspect-square w-full max-w-[540px]">
+    <div className="relative mx-auto h-[560px] w-full max-w-[380px] lg:max-w-[540px] lg:h-auto lg:aspect-square">
       <motion.div
         animate={{ rotate: 360 }}
         transition={{ duration: 38, repeat: Infinity, ease: "linear" }}
-        className="absolute inset-8 rounded-full border border-blue-300/15"
+        className="absolute inset-6 lg:inset-8 rounded-full border border-blue-300/15"
       />
       <motion.div
         animate={{ rotate: -360 }}
         transition={{ duration: 52, repeat: Infinity, ease: "linear" }}
-        className="absolute inset-16 rounded-full border border-cyan-200/10"
+        className="absolute inset-14 lg:inset-16 rounded-full border border-cyan-200/10"
       />
-      <div className="absolute inset-10 rounded-[2rem] bg-blue-500/10 blur-3xl" />
+      <div className="absolute inset-0 rounded-full bg-blue-500/5 blur-3xl lg:hidden" />
+      <div className="absolute inset-10 lg:inset-10 rounded-[2rem] bg-blue-500/10 blur-3xl" />
 
       <motion.div
         animate={{ y: [0, -12, 0] }}
         transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-        className="glass absolute left-6 top-20 w-52 rounded-2xl p-4"
+        className="glass absolute left-3 top-12 w-[180px] rounded-2xl p-4 lg:left-6 lg:top-20 lg:w-52"
       >
         <div className="mb-4 flex items-center gap-2">
           <span className="h-2.5 w-2.5 rounded-full bg-blue-400" />
@@ -457,7 +459,7 @@ function TechIllustration() {
       <motion.div
         animate={{ y: [0, 14, 0] }}
         transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut" }}
-        className="glass absolute right-5 top-10 w-44 rounded-2xl p-4"
+        className="glass absolute right-3 top-2 w-[138px] rounded-2xl p-4 lg:right-5 lg:top-0 lg:w-44"
       >
         <div className="mb-5 flex items-center justify-between">
           <Server className="h-6 w-6 text-blue-300" aria-hidden="true" />
@@ -465,7 +467,7 @@ function TechIllustration() {
             Online
           </span>
         </div>
-        <div className="grid grid-cols-4 gap-2">
+        <div className="grid grid-cols-3 gap-2 lg:grid-cols-4 lg:gap-2">
           {Array.from({ length: 12 }).map((_, index) => (
             <span key={index} className="h-7 rounded-md bg-white/[0.06]" />
           ))}
@@ -475,7 +477,7 @@ function TechIllustration() {
       <motion.div
         animate={{ y: [0, -10, 0], x: [0, 8, 0] }}
         transition={{ duration: 6.5, repeat: Infinity, ease: "easeInOut" }}
-        className="glass absolute bottom-20 right-8 w-56 rounded-2xl p-5"
+        className="glass absolute left-1/2 bottom-10 -translate-x-1/2 w-[180px] rounded-2xl p-5 lg:bottom-20 lg:left-auto lg:translate-x-0 lg:right-8 lg:w-56"
       >
         <div className="mb-4 flex items-center gap-3">
           <div className="grid h-10 w-10 place-items-center rounded-xl bg-blue-500/[0.18]">
@@ -499,15 +501,17 @@ function TechIllustration() {
       <motion.div
         animate={{ y: [0, 10, 0] }}
         transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute bottom-10 left-10 grid h-24 w-24 place-items-center rounded-3xl border border-blue-300/20 bg-blue-500/[0.12] shadow-glow backdrop-blur-xl"
+        className="absolute left-4 bottom-10 h-24 w-24 rounded-3xl border border-blue-300/20 bg-blue-500/[0.12] shadow-glow backdrop-blur-xl lg:left-10 lg:bottom-10"
       >
-        <Code2 className="h-10 w-10 text-blue-200" aria-hidden="true" />
+        <div className="grid h-full w-full place-items-center">
+          <Code2 className="h-10 w-10 text-blue-200" aria-hidden="true" />
+        </div>
       </motion.div>
 
-      <div className="absolute left-1/2 top-1/2 grid -translate-x-1/2 -translate-y-1/2 place-items-center">
+      <div className="absolute left-1/2 top-[55%] grid -translate-x-1/2 -translate-y-1/2 place-items-center lg:top-1/2">
         <div className="text-center">
           <div className="mb-3 flex justify-center">
-            <LogoImage size="lg"/>
+            <LogoImage size="lg" />
           </div>
           <p className="brand-type text-sm font-bold uppercase tracking-[0.22em] text-blue-200">Tech</p>
         </div>
@@ -516,44 +520,6 @@ function TechIllustration() {
   );
 }
 
-function TechIllustrationMobile() {
-  return (
-    <div className="relative mx-auto w-full max-w-lg">
-      <div className="h-[40vh] max-h-[420px] w-full rounded-2xl bg-gradient-to-b from-slate-900/0 to-slate-900/0 p-4">
-        <div className="relative h-full w-full overflow-hidden rounded-xl">
-          <div className="absolute left-1/2 top-6 -translate-x-1/2">
-            <LogoImage size="md" />
-          </div>
-
-          <div className="absolute left-4 top-28 w-[58%] rounded-xl bg-white/[0.03] p-3 shadow-glow">
-                <div className="h-28 overflow-hidden rounded-md bg-slate-800 p-3">
-              <div className="h-full w-full rounded bg-gradient-to-br from-slate-800 to-slate-900 p-3">
-                <pre className="text-xs leading-5 text-slate-300 line-clamp-6">{`const hello = 'R3 Tech';
-// Code preview
-function run(){
-  return 'performance';
-}`}</pre>
-              </div>
-            </div>
-          </div>
-
-          <div className="absolute right-4 bottom-16 w-36 rounded-xl bg-blue-500/[0.12] p-3">
-            <p className="text-sm font-semibold text-white">IT Performance</p>
-            <p className="text-xs text-slate-300">Optimization</p>
-            <div className="mt-2 h-2 rounded-full bg-slate-700">
-              <div className="h-full w-3/5 rounded-full bg-blue-400" />
-            </div>
-          </div>
-
-          <div className="absolute left-4 bottom-16 w-28 rounded-xl bg-emerald-400/[0.08] p-2">
-            <p className="text-sm font-semibold text-white">Calendar</p>
-            <p className="text-xs text-slate-300">Events</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
 
 function Hero() {
   return (
@@ -564,53 +530,7 @@ function Hero() {
       <div className="absolute left-1/2 top-0 -z-10 h-[520px] w-[520px] -translate-x-1/2 rounded-full bg-blue-500/[0.18] blur-[120px]" />
       <div className="absolute right-0 top-32 -z-10 h-80 w-80 rounded-full bg-cyan-400/10 blur-[100px]" />
 
-      {/* Mobile-specific hero */}
-      <div className="lg:hidden mx-auto max-w-3xl px-5 pb-12 pt-6">
-        <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-          <span className="inline-flex items-center gap-2 rounded-full border border-blue-300/16 bg-blue-500/8 px-4 py-2 text-sm font-medium text-blue-100">
-            <Zap className="h-4 w-4 text-blue-300" aria-hidden="true" />
-            R3 Tech · Software • Web • IT Solutions
-          </span>
-
-          <h1 className="mt-6 text-3xl font-bold leading-tight tracking-tight text-white">Desarrollamos el software que hace crecer tu empresa.</h1>
-
-          <p className="mt-4 text-base leading-7 text-slate-300">Automatizamos procesos, desarrollamos plataformas web y creamos software a medida para que tu empresa ahorre tiempo, venda más y escale sin límites.</p>
-
-          <div className="mt-6 flex flex-col gap-3">
-            <a
-              href={whatsappUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="brand-type w-full inline-flex items-center justify-center gap-2 rounded-full bg-blue-500 px-6 py-3 text-base font-bold uppercase tracking-[0.06em] text-white shadow-glow"
-            >
-              Solicitar Presupuesto
-              <WhatsAppIcon className="h-4 w-4" />
-            </a>
-            <a
-              href="#servicios"
-              className="brand-type w-full inline-flex items-center justify-center gap-2 rounded-full border border-blue-400/20 bg-white/[0.02] px-6 py-3 text-base font-bold uppercase tracking-[0.06em] text-white"
-            >
-              Ver soluciones
-+            </a>
-          </div>
-
-          <div className="mt-6">
-            <TechIllustrationMobile />
-          </div>
-
-          <div className="mt-6 grid grid-cols-3 gap-3">
-            {stats.map((stat) => (
-              <div key={stat.label} className="rounded-2xl border border-white/10 bg-white/[0.03] p-3">
-                <p className="brand-type text-xl font-bold text-white">{stat.value}</p>
-                <p className="mt-1 text-xs leading-5 text-slate-400">{stat.label}</p>
-              </div>
-            ))}
-          </div>
-        </motion.div>
-      </div>
-
-      {/* Desktop hero (unchanged, visible on lg+) */}
-      <div className="hidden lg:grid mx-auto max-w-7xl items-center gap-12 px-5 pb-20 pt-10 lg:grid-cols-[1.02fr_0.98fr] lg:px-8 lg:pb-28">
+      <div className="mx-auto max-w-7xl px-5 pb-20 pt-10 lg:grid lg:grid-cols-[1.02fr_0.98fr] lg:items-center lg:gap-12 lg:px-8 lg:pb-28 flex flex-col">
         <motion.div initial={{ opacity: 0, y: 22 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.75 }}>
           <span className="inline-flex items-center gap-2 rounded-full border border-blue-300/20 bg-blue-500/10 px-4 py-2 text-sm font-medium text-blue-100">
             <Zap className="h-4 w-4 text-blue-300" aria-hidden="true" />
@@ -631,7 +551,7 @@ function Hero() {
             >
               Solicitar presupuesto
               <WhatsAppIcon className="h-4 w-4" />
-            </a> 
+            </a>
             <a
               href="#servicios"
               className="brand-type inline-flex items-center justify-center gap-2 rounded-full border border-blue-400/35 bg-white/[0.03] px-7 py-4 text-base font-bold uppercase tracking-[0.08em] text-white transition hover:-translate-y-0.5 hover:border-blue-300/70 hover:bg-white/[0.07]"
@@ -655,10 +575,9 @@ function Hero() {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.85, delay: 0.15 }}
           aria-hidden="true"
+          className="mt-10 flex justify-center lg:mt-0"
         >
-          <div className="transform sm:scale-100 scale-100">
-            <TechIllustration />
-          </div>
+          <TechIllustration />
         </motion.div>
       </div>
     </section>
