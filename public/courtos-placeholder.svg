@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="900" viewBox="0 0 1200 900" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="g" x1="0" x2="1">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#0ea5e9" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="900" fill="url(#g)" />
+  <g transform="translate(80,80)">
+    <rect x="0" y="0" width="1040" height="740" rx="28" fill="#0b1220" opacity="0.25" />
+    <g transform="translate(60,60)" fill="#ffffff" opacity="0.12">
+      <rect x="0" y="0" width="920" height="560" rx="20" />
+    </g>
+    <g transform="translate(360,180)">
+      <circle cx="60" cy="60" r="60" fill="#ffffff" opacity="0.12" />
+      <rect x="160" y="18" width="440" height="84" rx="12" fill="#ffffff" opacity="0.08" />
+      <rect x="160" y="120" width="440" height="84" rx="12" fill="#ffffff" opacity="0.08" />
+      <rect x="160" y="222" width="440" height="84" rx="12" fill="#ffffff" opacity="0.08" />
+    </g>
+    <text x="100" y="680" fill="#e6f6ff" font-family="Inter, Arial, sans-serif" font-size="48" font-weight="700">CourtOS</text>
+    <text x="100" y="736" fill="#cfeeff" font-family="Inter, Arial, sans-serif" font-size="20">Agenda y gestión de clubes de pádel — reservas, calendario y miembros</text>
+  </g>
+</svg>

@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useMotionTemplate, useMotionValue, useScroll, useTransform } from "framer-motion";
+import { motion, AnimatePresence, useMotionTemplate, useMotionValue, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 import {
   ArrowUp,
@@ -24,15 +24,24 @@ import {
   X,
   Zap,
 } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
-const whatsappUrl = "https://wa.me/5491123456789?text=Hola%20R3%20Tech%2C%20quiero%20solicitar%20un%20presupuesto.";
+const whatsappUrl = "https://wa.me/5493412513986?text=Hola%20R3%20Tech%2C%20quiero%20solicitar%20un%20presupuesto.";
 
 const navItems = [
   { label: "Soluciones", href: "#servicios" },
   { label: "Ventajas", href: "#ventajas" },
   { label: "Cómo trabajamos", href: "#proceso" },
   { label: "Contacto", href: "#contacto" },
+];
+
+const mobileMenuItems = [
+  { label: 'Inicio', href: '#inicio' },
+  { label: 'Soluciones', href: '#servicios' },
+  { label: 'Ventajas', href: '#ventajas' },
+  { label: 'Cómo Trabajamos', href: '#proceso' },
+  { label: 'Proyectos', href: '#proyectos' },
+  { label: 'Contacto', href: '#contacto' },
 ];
 
 const solutionGroups = [
@@ -202,8 +211,7 @@ function MagneticCard({
   );
 }
 
-function Navbar() {
-  const [open, setOpen] = useState(false);
+function Navbar({ open, onToggle, buttonRef }: { open: boolean; onToggle: () => void; buttonRef: React.RefObject<HTMLButtonElement | null> }) {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -244,7 +252,7 @@ function Navbar() {
           href={whatsappUrl}
           target="_blank"
           rel="noreferrer"
-          className="brand-type hidden items-center gap-2 rounded-full bg-blue-500 px-5 py-2.5 text-sm font-bold uppercase tracking-[0.08em] text-white shadow-glow transition hover:bg-blue-400 md:inline-flex"
+          className="brand-type hidden items-center gap-2 rounded-full bg-blue-500 px-5 py-2.5 text-sm font-bold uppercase tracking-[0.08em] text-white transition hover:bg-blue-400 md:inline-flex"
         >
           <WhatsAppIcon className="h-4 w-4" />
           WhatsApp
@@ -252,34 +260,165 @@ function Navbar() {
 
         <button
           type="button"
-          onClick={() => setOpen((value) => !value)}
-          className="grid h-11 w-11 place-items-center rounded-xl border border-slate-700 bg-slate-950/50 text-white md:hidden"
+          ref={buttonRef}
+          onClick={onToggle}
+          className="grid h-11 w-11 place-items-center rounded-xl border border-slate-700 bg-slate-950 text-white md:hidden"
           aria-label={open ? "Cerrar menú" : "Abrir menú"}
           aria-expanded={open}
         >
-          {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          <span className="sr-only">{open ? 'Cerrar menú' : 'Abrir menú'}</span>
+          <motion.div initial={false} animate={{ rotate: open ? 90 : 0 }} transition={{ duration: 0.28 }}>
+            {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </motion.div>
         </button>
       </nav>
-
-      {open && (
-        <motion.div
-          initial={{ opacity: 0, y: -8 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="mx-5 mb-4 rounded-2xl border border-slate-700 bg-slate-950/95 p-3 shadow-soft-xl backdrop-blur-xl md:hidden"
-        >
-          {navItems.map((item) => (
-            <a
-              key={item.href}
-              href={item.href}
-              onClick={() => setOpen(false)}
-              className="block rounded-xl px-4 py-3 text-sm font-medium text-slate-200 hover:bg-white/[0.07]"
-            >
-              {item.label}
-            </a>
-          ))}
-        </motion.div>
-      )}
     </header>
+  );
+}
+
+function MobileMenuOverlay({ open, onClose, buttonRef }: { open: boolean; onClose: () => void; buttonRef: React.RefObject<HTMLButtonElement | null> }) {
+  const menuRef = useRef<HTMLElement | null>(null);
+  const originalBodyOverflow = useRef<string>("");
+  const originalHtmlOverflow = useRef<string>("");
+  const originalBodyPaddingRight = useRef<string>("");
+
+  useEffect(() => {
+    const body = document.body;
+    const html = document.documentElement;
+
+    if (open) {
+      originalBodyOverflow.current = body.style.overflow;
+      originalHtmlOverflow.current = html.style.overflow;
+      originalBodyPaddingRight.current = body.style.paddingRight;
+
+      const scrollbarWidth = window.innerWidth - html.clientWidth;
+      if (scrollbarWidth > 0) {
+        body.style.paddingRight = `${scrollbarWidth}px`;
+      }
+
+      body.style.overflow = "hidden";
+      html.style.overflow = "hidden";
+    } else {
+      html.style.overflow = originalHtmlOverflow.current;
+      body.style.overflow = originalBodyOverflow.current;
+      body.style.paddingRight = originalBodyPaddingRight.current;
+    }
+
+    return () => {
+      html.style.overflow = originalHtmlOverflow.current;
+      body.style.overflow = originalBodyOverflow.current;
+      body.style.paddingRight = originalBodyPaddingRight.current;
+    };
+  }, [open]);
+
+  useEffect(() => {
+    if (!open) return;
+
+    const node = menuRef.current;
+    const focusableSelector = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
+    const focusable: HTMLElement[] = node ? Array.from(node.querySelectorAll(focusableSelector)) as HTMLElement[] : [];
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    first?.focus();
+
+    function onKey(e: KeyboardEvent) {
+      if (e.key === 'Escape') {
+        onClose();
+        buttonRef.current?.focus();
+      }
+      if (e.key === 'Tab') {
+        if (!first || !last) return;
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+    }
+
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [open, onClose, buttonRef]);
+
+  return (
+    <AnimatePresence>
+      {open && (
+        <motion.aside
+          key="menu"
+          initial={{ x: '100%' }}
+          animate={{ x: 0 }}
+          exit={{ x: '100%' }}
+          transition={{ type: 'tween', duration: 0.38, ease: [0.22, 1, 0.36, 1] }}
+          className="fixed inset-0 z-[9999] w-screen h-[100dvh] overflow-hidden md:hidden"
+          aria-modal="true"
+          role="dialog"
+        >
+          <div className="absolute inset-0 bg-[#060B17]" />
+          <div ref={menuRef as any} className="relative z-10 flex h-full w-full flex-col overflow-hidden px-5 pt-6 text-slate-100">
+            <button
+              type="button"
+              aria-label="Cerrar menú"
+              onClick={onClose}
+              className="absolute right-4 top-4 z-50 grid h-11 w-11 place-items-center rounded-full bg-white/10 text-white ring-1 ring-white/10 transition hover:bg-white/15"
+            >
+              <X className="h-5 w-5" />
+            </button>
+
+            <div className="relative z-50 mt-6 border-b border-white/10 pb-5">
+              <div className="flex items-center gap-3">
+                <LogoImage size="sm" />
+                <div>
+                  <p className="brand-type text-sm font-bold uppercase tracking-[0.18em] text-white">R3 TECH</p>
+                  <p className="text-xs uppercase tracking-[0.22em] text-slate-400">Software · Web · IT Solutions</p>
+                </div>
+              </div>
+            </div>
+
+            <nav aria-label="Menú principal" className="relative z-50 flex-1">
+              <motion.ul
+                initial="hidden"
+                animate="visible"
+                exit="hidden"
+                variants={{ visible: { transition: { staggerChildren: 0.06 } }, hidden: {} }}
+                className="mt-8 space-y-3"
+              >
+                {mobileMenuItems.map((item) => (
+                  <motion.li
+                    key={item.href}
+                    variants={{
+                      hidden: { opacity: 0, x: 28 },
+                      visible: { opacity: 1, x: 0, transition: { duration: 0.34, ease: 'easeOut' } },
+                    }}
+                  >
+                    <a
+                      href={item.href}
+                      onClick={onClose}
+                      className="block w-full px-0 py-4 text-left text-2xl font-semibold tracking-tight text-white transition-colors duration-200 hover:text-blue-300"
+                    >
+                      {item.label}
+                    </a>
+                  </motion.li>
+                ))}
+              </motion.ul>
+            </nav>
+
+            <div className="mt-auto relative z-50 pt-6 pb-12">
+              <div style={{ paddingBottom: 'env(safe-area-inset-bottom)' }} className="w-full">
+                <a
+                  href={whatsappUrl}
+                  onClick={onClose}
+                  className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-blue-500 px-5 py-4 text-sm font-semibold uppercase tracking-[0.08em] text-white transition-colors duration-200 hover:bg-blue-400"
+                >
+                  Solicitar Presupuesto
+                </a>
+              </div>
+            </div>
+          </div>
+        </motion.aside>
+      )}
+    </AnimatePresence>
   );
 }
 
@@ -377,6 +516,45 @@ function TechIllustration() {
   );
 }
 
+function TechIllustrationMobile() {
+  return (
+    <div className="relative mx-auto w-full max-w-lg">
+      <div className="h-[40vh] max-h-[420px] w-full rounded-2xl bg-gradient-to-b from-slate-900/0 to-slate-900/0 p-4">
+        <div className="relative h-full w-full overflow-hidden rounded-xl">
+          <div className="absolute left-1/2 top-6 -translate-x-1/2">
+            <LogoImage size="md" />
+          </div>
+
+          <div className="absolute left-4 top-28 w-[58%] rounded-xl bg-white/[0.03] p-3 shadow-glow">
+                <div className="h-28 overflow-hidden rounded-md bg-slate-800 p-3">
+              <div className="h-full w-full rounded bg-gradient-to-br from-slate-800 to-slate-900 p-3">
+                <pre className="text-xs leading-5 text-slate-300 line-clamp-6">{`const hello = 'R3 Tech';
+// Code preview
+function run(){
+  return 'performance';
+}`}</pre>
+              </div>
+            </div>
+          </div>
+
+          <div className="absolute right-4 bottom-16 w-36 rounded-xl bg-blue-500/[0.12] p-3">
+            <p className="text-sm font-semibold text-white">IT Performance</p>
+            <p className="text-xs text-slate-300">Optimization</p>
+            <div className="mt-2 h-2 rounded-full bg-slate-700">
+              <div className="h-full w-3/5 rounded-full bg-blue-400" />
+            </div>
+          </div>
+
+          <div className="absolute left-4 bottom-16 w-28 rounded-xl bg-emerald-400/[0.08] p-2">
+            <p className="text-sm font-semibold text-white">Calendar</p>
+            <p className="text-xs text-slate-300">Events</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function Hero() {
   return (
     <section id="inicio" className="relative isolate min-h-screen overflow-hidden pt-28">
@@ -386,7 +564,53 @@ function Hero() {
       <div className="absolute left-1/2 top-0 -z-10 h-[520px] w-[520px] -translate-x-1/2 rounded-full bg-blue-500/[0.18] blur-[120px]" />
       <div className="absolute right-0 top-32 -z-10 h-80 w-80 rounded-full bg-cyan-400/10 blur-[100px]" />
 
-      <div className="mx-auto grid max-w-7xl items-center gap-12 px-5 pb-20 pt-10 lg:grid-cols-[1.02fr_0.98fr] lg:px-8 lg:pb-28">
+      {/* Mobile-specific hero */}
+      <div className="lg:hidden mx-auto max-w-3xl px-5 pb-12 pt-6">
+        <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
+          <span className="inline-flex items-center gap-2 rounded-full border border-blue-300/16 bg-blue-500/8 px-4 py-2 text-sm font-medium text-blue-100">
+            <Zap className="h-4 w-4 text-blue-300" aria-hidden="true" />
+            R3 Tech · Software • Web • IT Solutions
+          </span>
+
+          <h1 className="mt-6 text-3xl font-bold leading-tight tracking-tight text-white">Desarrollamos el software que hace crecer tu empresa.</h1>
+
+          <p className="mt-4 text-base leading-7 text-slate-300">Automatizamos procesos, desarrollamos plataformas web y creamos software a medida para que tu empresa ahorre tiempo, venda más y escale sin límites.</p>
+
+          <div className="mt-6 flex flex-col gap-3">
+            <a
+              href={whatsappUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="brand-type w-full inline-flex items-center justify-center gap-2 rounded-full bg-blue-500 px-6 py-3 text-base font-bold uppercase tracking-[0.06em] text-white shadow-glow"
+            >
+              Solicitar Presupuesto
+              <WhatsAppIcon className="h-4 w-4" />
+            </a>
+            <a
+              href="#servicios"
+              className="brand-type w-full inline-flex items-center justify-center gap-2 rounded-full border border-blue-400/20 bg-white/[0.02] px-6 py-3 text-base font-bold uppercase tracking-[0.06em] text-white"
+            >
+              Ver soluciones
++            </a>
+          </div>
+
+          <div className="mt-6">
+            <TechIllustrationMobile />
+          </div>
+
+          <div className="mt-6 grid grid-cols-3 gap-3">
+            {stats.map((stat) => (
+              <div key={stat.label} className="rounded-2xl border border-white/10 bg-white/[0.03] p-3">
+                <p className="brand-type text-xl font-bold text-white">{stat.value}</p>
+                <p className="mt-1 text-xs leading-5 text-slate-400">{stat.label}</p>
+              </div>
+            ))}
+          </div>
+        </motion.div>
+      </div>
+
+      {/* Desktop hero (unchanged, visible on lg+) */}
+      <div className="hidden lg:grid mx-auto max-w-7xl items-center gap-12 px-5 pb-20 pt-10 lg:grid-cols-[1.02fr_0.98fr] lg:px-8 lg:pb-28">
         <motion.div initial={{ opacity: 0, y: 22 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.75 }}>
           <span className="inline-flex items-center gap-2 rounded-full border border-blue-300/20 bg-blue-500/10 px-4 py-2 text-sm font-medium text-blue-100">
             <Zap className="h-4 w-4 text-blue-300" aria-hidden="true" />
@@ -416,7 +640,7 @@ function Hero() {
               <ChevronRight className="h-4 w-4" aria-hidden="true" />
             </a>
           </div>
-          <div className="mt-10 grid max-w-2xl gap-3 sm:grid-cols-3">
+          <div className="hidden lg:grid mt-10 max-w-2xl gap-3 sm:grid-cols-3">
             {stats.map((stat) => (
               <div key={stat.label} className="rounded-2xl border border-white/10 bg-white/[0.035] p-4 backdrop-blur">
                 <p className="brand-type text-3xl font-bold text-white">{stat.value}</p>
@@ -432,7 +656,9 @@ function Hero() {
           transition={{ duration: 0.85, delay: 0.15 }}
           aria-hidden="true"
         >
-          <TechIllustration />
+          <div className="transform sm:scale-100 scale-100">
+            <TechIllustration />
+          </div>
         </motion.div>
       </div>
     </section>
@@ -468,31 +694,31 @@ function Services() {
           text="R3 Tech combina diseño, desarrollo y soporte IT para resolver necesidades reales con una experiencia clara, moderna y confiable."
         />
         <div className="space-y-12">
-          {solutionGroups.map((group, groupIndex) => (
-            <div key={group.title}>
-              <FadeIn delay={groupIndex * 0.04}>
-                <h3 className="brand-type mb-5 text-2xl font-bold uppercase tracking-[0.16em] text-blue-300">
-                  {group.title}
-                </h3>
-              </FadeIn>
-              <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-                {group.items.map((service, index) => {
-                  const Icon = service.icon;
-                  return (
-                    <FadeIn key={service.title} delay={index * 0.04}>
-                      <MagneticCard className="h-full">
-                        <div className="mb-6 grid h-14 w-14 place-items-center rounded-2xl bg-blue-500/[0.14] text-blue-200 ring-1 ring-blue-300/20">
-                          <Icon className="h-6 w-6" aria-hidden="true" />
-                        </div>
-                        <h3 className="brand-type text-2xl font-bold uppercase tracking-[0.03em] text-white">{service.title}</h3>
-                        <p className="mt-3 leading-7 text-slate-400">{service.text}</p>
-                      </MagneticCard>
-                    </FadeIn>
-                  );
-                })}
+            {solutionGroups.map((group, groupIndex) => (
+              <div key={group.title}>
+                <FadeIn delay={groupIndex * 0.04}>
+                  <h3 className="brand-type mb-5 text-2xl font-bold uppercase tracking-[0.16em] text-blue-300">
+                    {group.title}
+                  </h3>
+                </FadeIn>
+                <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+                  {group.items.map((service, index) => {
+                    const Icon = service.icon;
+                    return (
+                      <FadeIn key={service.title} delay={index * 0.04}>
+                        <MagneticCard className="h-full">
+                          <div className="mb-6 grid h-14 w-14 place-items-center rounded-2xl bg-blue-500/[0.14] text-blue-200 ring-1 ring-blue-300/20">
+                            <Icon className="h-6 w-6" aria-hidden="true" />
+                          </div>
+                          <h3 className="brand-type text-2xl font-bold uppercase tracking-[0.03em] text-white">{service.title}</h3>
+                          <p className="mt-3 leading-7 text-slate-400">{service.text}</p>
+                        </MagneticCard>
+                      </FadeIn>
+                    );
+                  })}
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
         </div>
       </div>
     </section>
@@ -636,7 +862,7 @@ function Footer() {
   );
 }
 
-function FloatingActions() {
+function FloatingActions({ open }: { open: boolean }) {
   const { scrollYProgress } = useScroll();
   const scaleX = useTransform(scrollYProgress, [0, 1], [0, 1]);
   const [visible, setVisible] = useState(false);
@@ -648,6 +874,10 @@ function FloatingActions() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  if (open) {
+    return null;
+  }
+
   return (
     <>
       <motion.div className="fixed left-0 top-0 z-[60] h-1 origin-left bg-blue-400" style={{ scaleX }} />
@@ -656,7 +886,7 @@ function FloatingActions() {
         target="_blank"
         rel="noreferrer"
         aria-label="Contactar por WhatsApp"
-        className="fixed bottom-5 right-5 z-50 grid h-14 w-14 place-items-center rounded-full bg-blue-500 text-white shadow-glow transition hover:-translate-y-1 hover:bg-blue-400"
+        className="fixed bottom-5 right-5 z-50 grid h-14 w-14 place-items-center rounded-full bg-blue-500 text-white transition hover:-translate-y-1 hover:bg-blue-400"
       >
         <WhatsAppIcon className="h-6 w-6" />
       </a>
@@ -667,7 +897,7 @@ function FloatingActions() {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0 }}
           aria-label="Volver arriba"
-          className="fixed bottom-24 right-6 z-50 grid h-11 w-11 place-items-center rounded-full border border-slate-700 bg-slate-950/80 text-white shadow-soft-xl backdrop-blur-xl transition hover:border-blue-300/50"
+          className="fixed bottom-24 right-6 z-50 grid h-11 w-11 place-items-center rounded-full border border-slate-700 bg-slate-950/80 text-white transition hover:border-blue-300/50"
         >
           <ArrowUp className="h-5 w-5" aria-hidden="true" />
         </motion.a>
@@ -677,6 +907,9 @@ function FloatingActions() {
 }
 
 export default function Home() {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+
   const schema = useMemo(
     () => ({
       "@context": "https://schema.org",
@@ -694,9 +927,10 @@ export default function Home() {
   );
 
   return (
-    <main className="relative bg-ink">
+    <main className="relative bg-ink overflow-x-hidden">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
-      <Navbar />
+      <Navbar open={menuOpen} onToggle={() => setMenuOpen((value) => !value)} buttonRef={menuButtonRef} />
+      <MobileMenuOverlay open={menuOpen} onClose={() => setMenuOpen(false)} buttonRef={menuButtonRef} />
       <Hero />
       <Services />
       <section id="productos" className="relative overflow-hidden py-24">
@@ -709,7 +943,7 @@ export default function Home() {
           />
           <FadeIn>
             <div className="grid gap-6 lg:grid-cols-3">
-              <MagneticCard className="h-full">
+              <MagneticCard className="h-full flex flex-col">
                 <div className="mb-6 flex items-start justify-between gap-4">
                   <div className="grid h-14 w-14 place-items-center rounded-2xl bg-blue-500/[0.14] text-blue-200 ring-1 ring-blue-300/20">
                     <Server className="h-6 w-6" aria-hidden="true" />
@@ -718,13 +952,46 @@ export default function Home() {
                     Próximamente
                   </span>
                 </div>
-                <h3 className="brand-type text-3xl font-bold uppercase tracking-[0.03em] text-white">Court OS</h3>
-                <p className="mt-3 leading-7 text-slate-400">
-                  Plataforma inteligente para la gestión de clubes deportivos.
-                </p>
+
+                <div className="relative overflow-hidden rounded-3xl border border-white/5 bg-slate-950/75">
+                  <div className="aspect-[4/3] relative">
+                    <Image
+                      src="/courtos-placeholder.svg"
+                      alt="Mockup CourtOS"
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                </div>
+
+                <div className="flex-1 flex flex-col">
+                  <h3 className="brand-type mt-6 text-2xl font-bold tracking-[0.03em] text-white">CourtOS</h3>
+                  <p className="mt-2 text-sm uppercase tracking-[0.12em] text-blue-200">Plataforma inteligente</p>
+
+                  <p className="mt-4 leading-7 text-slate-400 line-clamp-3">Plataforma para la gestión de clubes de pádel con reservas online, administración de socios, ranking y estadísticas en tiempo real.</p>
+
+                  <ul className="mt-4 grid gap-3">
+                    <li className="flex items-start gap-3 text-sm text-slate-200"><span className="grid h-6 w-6 place-items-center rounded-full ring-1 ring-blue-300 text-blue-300"><CheckCircle2 className="h-4 w-4" /></span>Reservas Online</li>
+                    <li className="flex items-start gap-3 text-sm text-slate-200"><span className="grid h-6 w-6 place-items-center rounded-full ring-1 ring-blue-300 text-blue-300"><CheckCircle2 className="h-4 w-4" /></span>Gestión de Canchas</li>
+                    <li className="flex items-start gap-3 text-sm text-slate-200"><span className="grid h-6 w-6 place-items-center rounded-full ring-1 ring-blue-300 text-blue-300"><CheckCircle2 className="h-4 w-4" /></span>Ranking de Jugadores</li>
+                    <li className="flex items-start gap-3 text-sm text-slate-200"><span className="grid h-6 w-6 place-items-center rounded-full ring-1 ring-blue-300 text-blue-300"><CheckCircle2 className="h-4 w-4" /></span>Estadísticas</li>
+                  </ul>
+
+                  <p className="mt-4 text-sm uppercase tracking-[0.12em] text-slate-400">Next.js · React · TypeScript · Supabase</p>
+                </div>
+
+                <div className="mt-6 border-t border-white/5 pt-6">
+                  <a
+                    href="#"
+                    className="w-full inline-flex items-center justify-center gap-2 rounded-md border border-blue-300/10 px-4 py-3 text-sm font-semibold uppercase tracking-[0.12em] text-blue-300 transition hover:text-white"
+                  >
+                    Próximamente
+                    <ChevronRight className="h-4 w-4" aria-hidden="true" />
+                  </a>
+                </div>
               </MagneticCard>
 
-              <MagneticCard className="h-full">
+              <MagneticCard className="h-full flex flex-col">
                 <div className="mb-6 flex items-start justify-between gap-4">
                   <div className="grid h-14 w-14 place-items-center rounded-2xl bg-blue-500/[0.14] text-blue-200 ring-1 ring-blue-300/20">
                     <MonitorCog className="h-6 w-6" aria-hidden="true" />
@@ -743,26 +1010,36 @@ export default function Home() {
                     />
                   </div>
                 </div>
-                <h3 className="brand-type mt-6 text-2xl font-bold uppercase tracking-[0.03em] text-white">LS Negocios Inmobiliarios</h3>
-                <p className="mt-3 text-sm uppercase tracking-[0.12em] text-blue-200">Desarrollo Web</p>
-                <p className="mt-4 leading-7 text-slate-400">
-                  Sitio web para una inmobiliaria con catálogo de propiedades, filtros de búsqueda y una experiencia moderna y responsive.
-                </p>
-                <p className="mt-4 text-sm uppercase tracking-[0.12em] text-slate-400">
-                  Next.js · React · TypeScript · Tailwind CSS
-                </p>
-                <a
-                  href="https://lsnegociosinmobiliarios.netlify.app/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-6 inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.12em] text-blue-300 transition hover:text-white"
-                >
-                  Ver Proyecto
-                  <ChevronRight className="h-4 w-4" aria-hidden="true" />
-                </a>
+                <div className="flex-1 flex flex-col">
+                  <h3 className="brand-type mt-6 text-2xl font-bold uppercase tracking-[0.03em] text-white">LS Negocios Inmobiliarios</h3>
+                  <p className="mt-3 text-sm uppercase tracking-[0.12em] text-blue-200">Desarrollo Web</p>
+
+                  <p className="mt-4 leading-7 text-slate-400 line-clamp-3">Sitio con catálogo de propiedades, buscador inteligente y experiencia moderna enfocada en convertir visitas en consultas.</p>
+
+                  <ul className="mt-4 grid gap-3">
+                    <li className="flex items-start gap-3 text-sm text-slate-200"><span className="grid h-6 w-6 place-items-center rounded-full ring-1 ring-blue-300 text-blue-300"><CheckCircle2 className="h-4 w-4" /></span>Catálogo de Propiedades</li>
+                    <li className="flex items-start gap-3 text-sm text-slate-200"><span className="grid h-6 w-6 place-items-center rounded-full ring-1 ring-blue-300 text-blue-300"><CheckCircle2 className="h-4 w-4" /></span>Buscador Inteligente</li>
+                    <li className="flex items-start gap-3 text-sm text-slate-200"><span className="grid h-6 w-6 place-items-center rounded-full ring-1 ring-blue-300 text-blue-300"><CheckCircle2 className="h-4 w-4" /></span>Diseño Responsive</li>
+                    <li className="flex items-start gap-3 text-sm text-slate-200"><span className="grid h-6 w-6 place-items-center rounded-full ring-1 ring-blue-300 text-blue-300"><CheckCircle2 className="h-4 w-4" /></span>WhatsApp Integrado</li>
+                  </ul>
+
+                  <p className="mt-4 text-sm uppercase tracking-[0.12em] text-slate-400">Next.js · React · TypeScript · Tailwind CSS</p>
+                </div>
+
+                <div className="mt-6 border-t border-white/5 pt-6">
+                  <a
+                    href="https://lsnegociosinmobiliarios.netlify.app/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full inline-flex items-center justify-center gap-2 rounded-md border border-blue-300/10 px-4 py-3 text-sm font-semibold uppercase tracking-[0.12em] text-blue-300 transition hover:text-white"
+                  >
+                    Ver Proyecto
+                    <ChevronRight className="h-4 w-4" aria-hidden="true" />
+                  </a>
+                </div>
               </MagneticCard>
 
-              <MagneticCard className="h-full">
+              <MagneticCard className="h-full flex flex-col">
                 <div className="mb-6 flex items-start justify-between gap-4">
                   <div className="grid h-14 w-14 place-items-center rounded-2xl bg-blue-500/[0.14] text-blue-200 ring-1 ring-blue-300/20">
                     <Rocket className="h-6 w-6" aria-hidden="true" />
@@ -781,23 +1058,33 @@ export default function Home() {
                     />
                   </div>
                 </div>
-                <h3 className="brand-type mt-6 text-2xl font-bold uppercase tracking-[0.03em] text-white">Lavalle Padel Club</h3>
-                <p className="mt-3 text-sm uppercase tracking-[0.12em] text-blue-200">Sistema de Gestión</p>
-                <p className="mt-4 leading-7 text-slate-400">
-                  Plataforma para la gestión de un club de pádel con reservas online, disponibilidad de canchas y administración del club.
-                </p>
-                <p className="mt-4 text-sm uppercase tracking-[0.12em] text-slate-400">
-                  Next.js · React · TypeScript · Tailwind CSS
-                </p>
-                <a
-                  href="https://lavallepadelclub.netlify.app/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-6 inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.12em] text-blue-300 transition hover:text-white"
-                >
-                  Ver Proyecto
-                  <ChevronRight className="h-4 w-4" aria-hidden="true" />
-                </a>
+                <div className="flex-1 flex flex-col">
+                  <h3 className="brand-type mt-6 text-2xl font-bold uppercase tracking-[0.03em] text-white">Lavalle Padel Club</h3>
+                  <p className="mt-3 text-sm uppercase tracking-[0.12em] text-blue-200">Sistema de Gestión</p>
+
+                  <p className="mt-4 leading-7 text-slate-400 line-clamp-3">Gestión de club de pádel con reservas online, administración de sedes y control de disponibilidad.</p>
+
+                  <ul className="mt-4 grid gap-3">
+                    <li className="flex items-start gap-3 text-sm text-slate-200"><span className="grid h-6 w-6 place-items-center rounded-full ring-1 ring-blue-300 text-blue-300"><CheckCircle2 className="h-4 w-4" /></span>Reservas Online</li>
+                    <li className="flex items-start gap-3 text-sm text-slate-200"><span className="grid h-6 w-6 place-items-center rounded-full ring-1 ring-blue-300 text-blue-300"><CheckCircle2 className="h-4 w-4" /></span>Gestión de Canchas</li>
+                    <li className="flex items-start gap-3 text-sm text-slate-200"><span className="grid h-6 w-6 place-items-center rounded-full ring-1 ring-blue-300 text-blue-300"><CheckCircle2 className="h-4 w-4" /></span>Ranking de Jugadores</li>
+                    <li className="flex items-start gap-3 text-sm text-slate-200"><span className="grid h-6 w-6 place-items-center rounded-full ring-1 ring-blue-300 text-blue-300"><CheckCircle2 className="h-4 w-4" /></span>Panel Administrativo</li>
+                  </ul>
+
+                  <p className="mt-4 text-sm uppercase tracking-[0.12em] text-slate-400">Next.js · React · TypeScript · Tailwind CSS</p>
+                </div>
+
+                <div className="mt-6 border-t border-white/5 pt-6">
+                  <a
+                    href="https://lavallepadelclub.netlify.app/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full inline-flex items-center justify-center gap-2 rounded-md border border-blue-300/10 px-4 py-3 text-sm font-semibold uppercase tracking-[0.12em] text-blue-300 transition hover:text-white"
+                  >
+                    Ver Proyecto
+                    <ChevronRight className="h-4 w-4" aria-hidden="true" />
+                  </a>
+                </div>
               </MagneticCard>
             </div>
           </FadeIn>
@@ -807,7 +1094,7 @@ export default function Home() {
       <Process />
       <CTA />
       <Footer />
-      <FloatingActions />
+      <FloatingActions open={menuOpen} />
     </main>
   );
 }
