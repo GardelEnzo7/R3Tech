@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+Sitemap: https://r3Tech.com/sitemap.xml
+Host: https://r3Tech.com

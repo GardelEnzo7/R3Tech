@@ -9,6 +9,9 @@ export const metadata: Metadata = {
   },
   description:
     "R3 Tech desarrolla páginas web, aplicaciones, tiendas online y brinda soporte técnico profesional para empresas y particulares.",
+  alternates: {
+    canonical: "https://r3Tech.com",
+  },
   keywords: [
     "R3 Tech",
     "desarrollo web",
@@ -67,9 +70,66 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://r3Tech.com/#organization",
+        "name": "R3 Tech",
+        "url": "https://r3Tech.com",
+        "logo": "https://r3Tech.com/r3Tech-logo-transparent.webp",
+        "sameAs": []
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://r3Tech.com/#website",
+        "url": "https://r3Tech.com",
+        "name": "R3 Tech",
+        "publisher": { "@id": "https://r3Tech.com/#organization" }
+      }
+    ]
+  };
+
   return (
     <html lang="es" className="scroll-smooth">
-      <body>{children}</body>
+      <head>
+        <link
+          rel="preload"
+          href="/_next/static/media/rajdhani-latin-700-normal.05ae8f94.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preload"
+          href="/_next/static/media/plus-jakarta-sans-latin-400-normal.220db345.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preload"
+          href="/_next/static/media/plus-jakarta-sans-latin-700-normal.d84247b5.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preload"
+          href="/_next/static/media/plus-jakarta-sans-latin-600-normal.226f862d.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
+      </head>
+      <body>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+        {children}
+      </body>
     </html>
   );
 }

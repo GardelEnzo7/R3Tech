@@ -1,4 +1,10 @@
 {
+  "app\\page.tsx -> ./components/TechIllustrationClient": {
+    "id": "app\\page.tsx -> ./components/TechIllustrationClient",
+    "files": [
+      "static/chunks/_app-pages-browser_app_components_TechIllustrationClient_tsx.js"
+    ]
+  },
   "node_modules\\next\\dist\\client\\dev\\hot-reloader\\app\\use-websocket.js -> @vercel/turbopack-ecmascript-runtime/browser/dev/hmr-client/hmr-client.ts": {
     "id": "node_modules\\next\\dist\\client\\dev\\hot-reloader\\app\\use-websocket.js -> @vercel/turbopack-ecmascript-runtime/browser/dev/hmr-client/hmr-client.ts",
     "files": [

@@ -1,104 +1,61 @@
 "use client";
 
 import { motion, AnimatePresence, useMotionTemplate, useMotionValue, useScroll, useTransform } from "framer-motion";
+import dynamic from "next/dynamic";
 import Image from "next/image";
+import React, { useEffect, useRef, useState, useMemo } from "react";
 import {
-  ArrowUp,
-  CheckCircle2,
-  ChevronRight,
-  Code2,
-  Cpu,
-  Github,
-  Instagram,
-  Linkedin,
-  Mail,
-  Menu,
-  MonitorCog,
-  MousePointer2,
-  PanelsTopLeft,
-  Rocket,
   Server,
-  ShoppingCart,
-  Smartphone,
-  Wrench,
-  X,
+  Cpu,
+  Code2,
+  MonitorCog,
   Zap,
+  ChevronRight,
+  Menu,
+  X,
+  CheckCircle2,
+  Rocket,
+  ArrowUp,
+  Instagram,
+  Mail,
+  Github,
+  Linkedin,
 } from "lucide-react";
-import { useEffect, useMemo, useRef, useState } from "react";
 
+const TechIllustration = dynamic(() => import("./components/TechIllustrationClient"), {
+  ssr: false,
+  loading: () => <div className="w-full h-[560px]" />,
+});
 
 const whatsappUrl = "https://wa.me/5493412513986?text=Hola%20R3%20Tech%2C%20quiero%20solicitar%20un%20presupuesto.";
 
 const navItems = [
   { label: "Soluciones", href: "#servicios" },
-  { label: "Ventajas", href: "#ventajas" },
-  { label: "Cómo trabajamos", href: "#proceso" },
+  { label: "Productos", href: "#productos" },
   { label: "Contacto", href: "#contacto" },
 ];
 
-const mobileMenuItems = [
-  { label: 'Inicio', href: '#inicio' },
-  { label: 'Soluciones', href: '#servicios' },
-  { label: 'Ventajas', href: '#ventajas' },
-  { label: 'Cómo Trabajamos', href: '#proceso' },
-  { label: 'Proyectos', href: '#proyectos' },
-  { label: 'Contacto', href: '#contacto' },
-];
+const mobileMenuItems = navItems;
 
 const solutionGroups = [
   {
     title: "Software",
     items: [
-      {
-        icon: Cpu,
-        title: "Software a medida",
-        text: "Software a medida para automatizar procesos.",
-      },
-      {
-        icon: PanelsTopLeft,
-        title: "Desarrollo Web",
-        text: "Sitios web que convierten visitantes en clientes.",
-      },
-      {
-        icon: ShoppingCart,
-        title: "Ecommerce",
-        text: "Ecommerce listo para vender desde el primer día.",
-      },
-      {
-        icon: MonitorCog,
-        title: "Automatización",
-        text: "Integración con WhatsApp, Mercado Pago, APIs e IA.",
-      },
-      {
-        icon: Server,
-        title: "SaaS",
-        text: "Plataformas web preparadas para crecer con tus usuarios.",
-      },
+      { title: "Desarrollo a medida", icon: Code2, text: "Aplicaciones adaptadas a tus procesos." },
+      { title: "Integraciones", icon: Server, text: "Conectar sistemas y servicios para automatizar tareas." },
     ],
   },
   {
-    title: "IT Solutions",
+    title: "Web",
     items: [
-      {
-        icon: MousePointer2,
-        title: "Soporte Remoto",
-        text: "Resolución rápida de problemas sin moverte de tu casa.",
-      },
-      {
-        icon: MonitorCog,
-        title: "Optimización",
-        text: "Limpieza, mejoras de rendimiento y actualización de hardware.",
-      },
-      {
-        icon: Wrench,
-        title: "Reparación",
-        text: "Diagnóstico, reparación y mantenimiento de PC y notebooks.",
-      },
-      {
-        icon: Server,
-        title: "Redes",
-        text: "Configuración y soporte para conexiones estables y seguras.",
-      },
+      { title: "Páginas y tiendas", icon: Code2, text: "Sitios optimizados para conversión y rendimiento." },
+      { title: "UX/UI", icon: Cpu, text: "Diseño pensado en la experiencia del usuario." },
+    ],
+  },
+  {
+    title: "Soporte IT",
+    items: [
+      { title: "Soporte técnico", icon: Server, text: "Configuración y soporte para conexiones estables y seguras." },
     ],
   },
 ];
@@ -423,102 +380,7 @@ function MobileMenuOverlay({ open, onClose, buttonRef }: { open: boolean; onClos
   );
 }
 
-function TechIllustration() {
-  return (
-    <div className="relative mx-auto h-[560px] w-full max-w-[380px] lg:max-w-[540px] lg:h-auto lg:aspect-square">
-      <motion.div
-        animate={{ rotate: 360 }}
-        transition={{ duration: 38, repeat: Infinity, ease: "linear" }}
-        className="absolute inset-6 lg:inset-8 rounded-full border border-blue-300/15"
-      />
-      <motion.div
-        animate={{ rotate: -360 }}
-        transition={{ duration: 52, repeat: Infinity, ease: "linear" }}
-        className="absolute inset-14 lg:inset-16 rounded-full border border-cyan-200/10"
-      />
-      <div className="absolute inset-0 rounded-full bg-blue-500/5 blur-3xl lg:hidden" />
-      <div className="absolute inset-10 lg:inset-10 rounded-[2rem] bg-blue-500/10 blur-3xl" />
 
-      <motion.div
-        animate={{ y: [0, -12, 0] }}
-        transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-        className="glass absolute left-3 top-12 w-[180px] rounded-2xl p-4 lg:left-6 lg:top-20 lg:w-52"
-      >
-        <div className="mb-4 flex items-center gap-2">
-          <span className="h-2.5 w-2.5 rounded-full bg-blue-400" />
-          <span className="h-2.5 w-2.5 rounded-full bg-slate-500" />
-          <span className="h-2.5 w-2.5 rounded-full bg-white/70" />
-        </div>
-        <div className="space-y-2">
-          <span className="block h-2 rounded-full bg-blue-300/80" />
-          <span className="block h-2 w-4/5 rounded-full bg-slate-500/50" />
-          <span className="block h-2 w-2/3 rounded-full bg-slate-500/45" />
-        </div>
-      </motion.div>
-
-      <motion.div
-        animate={{ y: [0, 14, 0] }}
-        transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut" }}
-        className="glass absolute right-3 top-2 w-[138px] rounded-2xl p-4 lg:right-5 lg:top-0 lg:w-44"
-      >
-        <div className="mb-5 flex items-center justify-between">
-          <Server className="h-6 w-6 text-blue-300" aria-hidden="true" />
-          <span className="brand-type rounded-full bg-emerald-400/[0.14] px-2.5 py-1 text-xs font-bold uppercase tracking-[0.1em] text-emerald-200">
-            Online
-          </span>
-        </div>
-        <div className="grid grid-cols-3 gap-2 lg:grid-cols-4 lg:gap-2">
-          {Array.from({ length: 12 }).map((_, index) => (
-            <span key={index} className="h-7 rounded-md bg-white/[0.06]" />
-          ))}
-        </div>
-      </motion.div>
-
-      <motion.div
-        animate={{ y: [0, -10, 0], x: [0, 8, 0] }}
-        transition={{ duration: 6.5, repeat: Infinity, ease: "easeInOut" }}
-        className="glass absolute left-1/2 bottom-10 -translate-x-1/2 w-[180px] rounded-2xl p-5 lg:bottom-20 lg:left-auto lg:translate-x-0 lg:right-8 lg:w-56"
-      >
-        <div className="mb-4 flex items-center gap-3">
-          <div className="grid h-10 w-10 place-items-center rounded-xl bg-blue-500/[0.18]">
-            <Cpu className="h-5 w-5 text-blue-200" aria-hidden="true" />
-          </div>
-          <div>
-            <p className="text-sm font-semibold text-white">IT Performance</p>
-            <p className="text-xs text-slate-400">Optimization</p>
-          </div>
-        </div>
-        <div className="h-2 rounded-full bg-slate-700">
-          <motion.div
-            initial={{ width: "20%" }}
-            animate={{ width: ["35%", "82%", "64%"] }}
-            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-            className="h-full rounded-full bg-blue-400"
-          />
-        </div>
-      </motion.div>
-
-      <motion.div
-        animate={{ y: [0, 10, 0] }}
-        transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute left-4 bottom-10 h-24 w-24 rounded-3xl border border-blue-300/20 bg-blue-500/[0.12] shadow-glow backdrop-blur-xl lg:left-10 lg:bottom-10"
-      >
-        <div className="grid h-full w-full place-items-center">
-          <Code2 className="h-10 w-10 text-blue-200" aria-hidden="true" />
-        </div>
-      </motion.div>
-
-      <div className="absolute left-1/2 top-[55%] grid -translate-x-1/2 -translate-y-1/2 place-items-center lg:top-1/2">
-        <div className="text-center">
-          <div className="mb-3 flex justify-center">
-            <LogoImage size="lg" />
-          </div>
-          <p className="brand-type text-sm font-bold uppercase tracking-[0.22em] text-blue-200">Tech</p>
-        </div>
-      </div>
-    </div>
-  );
-}
 
 
 function Hero() {
@@ -612,32 +474,31 @@ function Services() {
           title="Soluciones digitales con criterio técnico"
           text="R3 Tech combina diseño, desarrollo y soporte IT para resolver necesidades reales con una experiencia clara, moderna y confiable."
         />
-        <div className="space-y-12">
-            {solutionGroups.map((group, groupIndex) => (
-              <div key={group.title}>
-                <FadeIn delay={groupIndex * 0.04}>
-                  <h3 className="brand-type mb-5 text-2xl font-bold uppercase tracking-[0.16em] text-blue-300">
-                    {group.title}
-                  </h3>
+
+        {/* Render all service items in a single 3-column grid to match previous layout (2 rows x 3 cols) */}
+        <div className="mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+          {solutionGroups
+            .flatMap((group) => group.items.map((item) => ({ ...item, group: group.title })))
+            .map((service, index) => {
+              const Icon = service.icon;
+              return (
+                <FadeIn key={service.title + index} delay={index * 0.03}>
+                  <MagneticCard className="h-full">
+                    <div className="mb-6 flex items-start justify-between gap-4">
+                      <div className="grid h-14 w-14 place-items-center rounded-2xl bg-blue-500/[0.14] text-blue-200 ring-1 ring-blue-300/20">
+                        <Icon className="h-6 w-6" aria-hidden="true" />
+                      </div>
+                      <span className="brand-type rounded-full border border-blue-300/30 bg-blue-500/10 px-3 py-1 text-xs font-bold uppercase tracking-[0.14em] text-blue-200">
+                        {service.group}
+                      </span>
+                    </div>
+
+                    <h3 className="brand-type text-2xl font-bold uppercase tracking-[0.03em] text-white">{service.title}</h3>
+                    <p className="mt-3 leading-7 text-slate-400">{service.text}</p>
+                  </MagneticCard>
                 </FadeIn>
-                <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-                  {group.items.map((service, index) => {
-                    const Icon = service.icon;
-                    return (
-                      <FadeIn key={service.title} delay={index * 0.04}>
-                        <MagneticCard className="h-full">
-                          <div className="mb-6 grid h-14 w-14 place-items-center rounded-2xl bg-blue-500/[0.14] text-blue-200 ring-1 ring-blue-300/20">
-                            <Icon className="h-6 w-6" aria-hidden="true" />
-                          </div>
-                          <h3 className="brand-type text-2xl font-bold uppercase tracking-[0.03em] text-white">{service.title}</h3>
-                          <p className="mt-3 leading-7 text-slate-400">{service.text}</p>
-                        </MagneticCard>
-                      </FadeIn>
-                    );
-                  })}
-                </div>
-              </div>
-            ))}
+              );
+            })}
         </div>
       </div>
     </section>
