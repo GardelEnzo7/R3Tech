@@ -744,8 +744,8 @@ function CTA() {
 function Footer() {
   const social = [
     { label: "WhatsApp", icon: WhatsAppIcon, href: whatsappUrl },
-    { label: "Instagram", icon: Instagram, href: "https://instagram.com/" },
-    { label: "Email", icon: Mail, href: "mailto:hola@r3Tech.com" },
+    { label: "Instagram", icon: Instagram, href: "https://www.instagram.com/r3tech.ar/?hl=es" },
+    { label: "Email", icon: Mail, href: "https://mail.google.com/mail/?view=cm&fs=1&to=r3tech24@gmail.com" },
     { label: "GitHub", icon: Github, href: "https://github.com/" },
     { label: "LinkedIn", icon: Linkedin, href: "https://linkedin.com/" },
   ];
