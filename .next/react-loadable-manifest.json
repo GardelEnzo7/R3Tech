@@ -1,10 +1,4 @@
 {
-  "app\\page.tsx -> ./components/TechIllustrationClient": {
-    "id": 3037,
-    "files": [
-      "static/chunks/37.80d5618eb8958efa.js"
-    ]
-  },
   "node_modules\\next\\dist\\client\\index.js -> ../pages/_app": {
     "id": 5139,
     "files": [

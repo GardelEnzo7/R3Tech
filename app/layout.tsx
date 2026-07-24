@@ -1,16 +1,67 @@
 import type { Metadata } from "next";
+import localFont from "next/font/local";
+import { brand, siteUrl } from "./lib/site-data";
 import "./globals.css";
 
+const plusJakarta = localFont({
+  variable: "--font-body",
+  display: "swap",
+  src: [
+    {
+      path: "../node_modules/@fontsource/plus-jakarta-sans/files/plus-jakarta-sans-latin-400-normal.woff2",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../node_modules/@fontsource/plus-jakarta-sans/files/plus-jakarta-sans-latin-500-normal.woff2",
+      weight: "500",
+      style: "normal",
+    },
+    {
+      path: "../node_modules/@fontsource/plus-jakarta-sans/files/plus-jakarta-sans-latin-600-normal.woff2",
+      weight: "600",
+      style: "normal",
+    },
+    {
+      path: "../node_modules/@fontsource/plus-jakarta-sans/files/plus-jakarta-sans-latin-700-normal.woff2",
+      weight: "700",
+      style: "normal",
+    },
+  ],
+});
+
+const rajdhani = localFont({
+  variable: "--font-display",
+  display: "swap",
+  src: [
+    {
+      path: "../node_modules/@fontsource/rajdhani/files/rajdhani-latin-500-normal.woff2",
+      weight: "500",
+      style: "normal",
+    },
+    {
+      path: "../node_modules/@fontsource/rajdhani/files/rajdhani-latin-600-normal.woff2",
+      weight: "600",
+      style: "normal",
+    },
+    {
+      path: "../node_modules/@fontsource/rajdhani/files/rajdhani-latin-700-normal.woff2",
+      weight: "700",
+      style: "normal",
+    },
+  ],
+});
+
 export const metadata: Metadata = {
-  metadataBase: new URL("https://r3Tech.com"),
+  metadataBase: new URL(siteUrl),
   title: {
-    default: "R3 Tech | Software, Web & IT Solutions",
-    template: "%s | R3 Tech",
+    default: `${brand.name} | Software, Web & IT Solutions`,
+    template: `%s | ${brand.name}`,
   },
   description:
     "R3 Tech desarrolla páginas web, aplicaciones, tiendas online y brinda soporte técnico profesional para empresas y particulares.",
   alternates: {
-    canonical: "https://r3Tech.com",
+    canonical: siteUrl,
   },
   keywords: [
     "R3 Tech",
@@ -21,15 +72,14 @@ export const metadata: Metadata = {
     "reparación de PC",
     "IT solutions",
   ],
-  authors: [{ name: "R3 Tech" }],
-  creator: "R3 Tech",
-  publisher: "R3 Tech",
+  authors: [{ name: brand.name }],
+  creator: brand.name,
+  publisher: brand.name,
   openGraph: {
-    title: "R3 Tech | Software • Web • IT Solutions",
-    description:
-      "Tecnología profesional para impulsar tu negocio: web, software, ecommerce y soporte IT.",
-    url: "https://r3Tech.com",
-    siteName: "R3 Tech",
+    title: `${brand.name} | ${brand.tagline}`,
+    description: "Tecnología profesional para impulsar tu negocio: web, software, ecommerce y soporte IT.",
+    url: siteUrl,
+    siteName: brand.name,
     images: [
       {
         url: "/r3Tech-logo-transparent.webp",
@@ -43,15 +93,14 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "R3 Tech | Software • Web • IT Solutions",
-    description:
-      "Desarrollo web, aplicaciones, tiendas online y soporte técnico profesional.",
+    title: `${brand.name} | ${brand.tagline}`,
+    description: "Desarrollo web, aplicaciones, tiendas online y soporte técnico profesional.",
     images: ["/r3Tech-logo-transparent.webp"],
   },
   icons: {
     icon: "/favicon.ico",
     shortcut: "/favicon.ico",
-    apple: "/r3Tech-icon.webp",
+    apple: "/r3tech-icon.png",
   },
   robots: {
     index: true,
@@ -65,69 +114,36 @@ export const metadata: Metadata = {
   },
 };
 
+const organizationSchema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": `${siteUrl}/#organization`,
+      name: brand.name,
+      url: siteUrl,
+      logo: `${siteUrl}/r3Tech-logo-transparent.webp`,
+      sameAs: ["https://www.instagram.com/r3tech.ar/?hl=es", "https://github.com/", "https://linkedin.com/"],
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${siteUrl}/#website`,
+      url: siteUrl,
+      name: brand.name,
+      publisher: { "@id": `${siteUrl}/#organization` },
+    },
+  ],
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "Organization",
-        "@id": "https://r3Tech.com/#organization",
-        "name": "R3 Tech",
-        "url": "https://r3Tech.com",
-        "logo": "https://r3Tech.com/r3Tech-logo-transparent.webp",
-        "sameAs": []
-      },
-      {
-        "@type": "WebSite",
-        "@id": "https://r3Tech.com/#website",
-        "url": "https://r3Tech.com",
-        "name": "R3 Tech",
-        "publisher": { "@id": "https://r3Tech.com/#organization" }
-      }
-    ]
-  };
-
   return (
-    <html lang="es" className="scroll-smooth">
-      <head>
-        <link
-          rel="preload"
-          href="/_next/static/media/rajdhani-latin-700-normal.05ae8f94.woff2"
-          as="font"
-          type="font/woff2"
-          crossOrigin="anonymous"
-        />
-        <link
-          rel="preload"
-          href="/_next/static/media/plus-jakarta-sans-latin-400-normal.220db345.woff2"
-          as="font"
-          type="font/woff2"
-          crossOrigin="anonymous"
-        />
-        <link
-          rel="preload"
-          href="/_next/static/media/plus-jakarta-sans-latin-700-normal.d84247b5.woff2"
-          as="font"
-          type="font/woff2"
-          crossOrigin="anonymous"
-        />
-        <link
-          rel="preload"
-          href="/_next/static/media/plus-jakarta-sans-latin-600-normal.226f862d.woff2"
-          as="font"
-          type="font/woff2"
-          crossOrigin="anonymous"
-        />
-      </head>
+    <html lang="es" className={`${plusJakarta.variable} ${rajdhani.variable} scroll-smooth`}>
       <body>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }} />
         {children}
       </body>
     </html>

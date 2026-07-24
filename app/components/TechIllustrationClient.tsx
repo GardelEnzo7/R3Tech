@@ -211,7 +211,7 @@ export default function TechIllustrationClient() {
         </div>
       </div>
 
-      <div className="r3-motion r3-float-card r3-float-code absolute left-4 bottom-10 h-24 w-24 rounded-3xl border border-blue-300/20 bg-blue-500/[0.12] shadow-glow backdrop-blur-xl lg:left-10 lg:bottom-10">
+      <div className="r3-motion r3-float-card r3-float-code absolute left-4 bottom-10 hidden h-24 w-24 rounded-3xl border border-blue-300/20 bg-blue-500/[0.12] shadow-glow backdrop-blur-xl md:block lg:left-10 lg:bottom-10">
         <div className="grid h-full w-full place-items-center">
           <Code2 className="h-10 w-10 text-blue-200" aria-hidden="true" />
         </div>
@@ -222,7 +222,14 @@ export default function TechIllustrationClient() {
           <div className="mb-3 flex justify-center">
             <div className="top-16 rounded-full bg-[#08111f]/30 relative size-48 lg:size-56 lg:top-0 ring-1 ring-white/10 shadow-[0_0_80px_rgba(59,130,246,.20)] backdrop-blur-md">
               <div className="relative w-full h-full flex items-center justify-center">
-                <Image src="/r3Tech-logo-transparent.webp" alt="R3 Tech" fill className="object-contain scale-90 drop-shadow-[0_0_22px_rgba(59,130,246,0.34)]" priority />
+                <Image
+                  src="/r3Tech-logo-transparent.webp"
+                  alt="R3 Tech"
+                  fill
+                  sizes="(min-width: 1024px) 224px, 192px"
+                  className="object-contain scale-90 drop-shadow-[0_0_22px_rgba(59,130,246,0.34)]"
+                  priority
+                />
                 <p className="absolute bottom-8 lg:bottom-10 brand-type text-sm font-bold uppercase tracking-[0.22em] text-blue-200">Tech</p>
               </div>
             </div>
