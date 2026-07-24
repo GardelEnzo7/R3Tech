@@ -78,14 +78,14 @@ async function main() {
       fit: "contain",
       background: { r: 0, g: 0, b: 0, alpha: 0 },
     })
-    .png()
-    .toFile("public/r3Tech-icon.png");
+    .webp()
+    .toFile("public/r3Tech-icon.webp");
 
   const sizes = [16, 32, 48, 64];
   const files = [];
   for (const size of sizes) {
-    const file = `public/r3Tech-icon-${size}.png`;
-    await sharp("public/r3Tech-icon.png").resize(size, size).png().toFile(file);
+    const file = `public/r3Tech-icon-${size}.webp`;
+    await sharp("public/r3Tech-icon.webp").resize(size, size).webp({ quality: 96 }).toFile(file);
     files.push(file);
   }
 

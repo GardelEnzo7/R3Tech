@@ -194,18 +194,20 @@ export default function TechIllustrationClient() {
         </div>
       </div>
 
-      <div className="r3-motion r3-float-card r3-float-performance glass absolute left-1/2 bottom-4 -translate-x-1/2 w-[180px] rounded-2xl p-5 lg:bottom-20 lg:left-auto lg:translate-x-0 lg:-right-8 lg:w-56">
-        <div className="mb-4 flex items-center gap-3">
-          <div className="grid h-10 w-10 place-items-center rounded-xl bg-blue-500/[0.18]">
-            <Cpu className="h-5 w-5 text-blue-200" aria-hidden="true" />
+      <div className="absolute left-1/2 bottom-4 w-[180px] -translate-x-1/2 lg:bottom-20 lg:left-auto lg:-right-8 lg:w-56 lg:translate-x-0">
+        <div className="r3-motion r3-float-card r3-float-performance glass rounded-2xl p-5">
+          <div className="mb-4 flex items-center gap-3">
+            <div className="grid h-10 w-10 place-items-center rounded-xl bg-blue-500/[0.18]">
+              <Cpu className="h-5 w-5 text-blue-200" aria-hidden="true" />
+            </div>
+            <div>
+              <p className="text-sm font-semibold text-white">IT Performance</p>
+              <p className="text-xs text-slate-400">Optimization</p>
+            </div>
           </div>
-          <div>
-            <p className="text-sm font-semibold text-white">IT Performance</p>
-            <p className="text-xs text-slate-400">Optimization</p>
+          <div className="h-2 overflow-hidden rounded-full bg-slate-700">
+            <div className="r3-motion r3-performance-bar h-full origin-left rounded-full bg-blue-400" />
           </div>
-        </div>
-        <div className="h-2 overflow-hidden rounded-full bg-slate-700">
-          <div className="r3-motion r3-performance-bar h-full origin-left rounded-full bg-blue-400" />
         </div>
       </div>
 

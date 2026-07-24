@@ -51,7 +51,7 @@ export const metadata: Metadata = {
   icons: {
     icon: "/favicon.ico",
     shortcut: "/favicon.ico",
-    apple: "/r3Tech-icon.png",
+    apple: "/r3Tech-icon.webp",
   },
   robots: {
     index: true,
