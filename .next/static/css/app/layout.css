@@ -2071,6 +2071,173 @@ h3,
 
 }
 
+@keyframes r3CircuitBreath {
+  0%, 100% {
+    opacity: 0.58;
+  }
+
+  50% {
+    opacity: 0.86;
+  }
+}
+
+@keyframes r3CircuitPulse {
+  0% {
+    opacity: 0;
+    stroke-dashoffset: 420;
+  }
+
+  18%, 58% {
+    opacity: 0.88;
+  }
+
+  100% {
+    opacity: 0;
+    stroke-dashoffset: -220;
+  }
+}
+
+@keyframes r3NodePulse {
+  0%, 100% {
+    opacity: 0.34;
+    transform: scale(0.96);
+  }
+
+  50% {
+    opacity: 0.92;
+    transform: scale(1.22);
+  }
+}
+
+@keyframes r3FloatBrowser {
+  0%, 100% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  50% {
+    transform: translate3d(0, -12px, 0);
+  }
+}
+
+@keyframes r3FloatServer {
+  0%, 100% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  50% {
+    transform: translate3d(0, 14px, 0);
+  }
+}
+
+@keyframes r3FloatPerformance {
+  0%, 100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+
+  50% {
+    transform: translate3d(calc(-50% + 8px), -10px, 0);
+  }
+}
+
+@keyframes r3FloatPerformanceDesktop {
+  0%, 100% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  50% {
+    transform: translate3d(8px, -10px, 0);
+  }
+}
+
+@keyframes r3FloatCode {
+  0%, 100% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  50% {
+    transform: translate3d(0, 10px, 0);
+  }
+}
+
+@keyframes r3PerformanceBar {
+  0%, 100% {
+    transform: scaleX(0.35);
+  }
+
+  50% {
+    transform: scaleX(0.82);
+  }
+}
+
+.r3-hero-visual .r3-motion {
+  animation-play-state: paused;
+}
+
+.r3-hero-visual[data-active="true"] .r3-motion {
+  animation-play-state: running;
+}
+
+.r3-hero-visual[data-reduced-motion="true"] .r3-motion {
+  animation: none !important;
+}
+
+.r3-circuit-svg {
+  animation: r3CircuitBreath 8s ease-in-out infinite;
+}
+
+.r3-circuit-pulse {
+  opacity: 0;
+  stroke-dasharray: 96 520;
+  animation: r3CircuitPulse 8.5s ease-in-out infinite;
+}
+
+.r3-node-pulse {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: r3NodePulse 5.8s ease-in-out infinite;
+}
+
+.r3-float-card {
+  will-change: transform;
+}
+
+.r3-float-browser {
+  animation: r3FloatBrowser 6.5s ease-in-out infinite;
+}
+
+.r3-float-server {
+  animation: r3FloatServer 7.2s ease-in-out infinite;
+}
+
+.r3-float-performance {
+  animation: r3FloatPerformance 7.8s ease-in-out infinite;
+}
+
+.r3-float-code {
+  animation: r3FloatCode 8.5s ease-in-out infinite;
+}
+
+.r3-performance-bar {
+  transform: scaleX(0.35);
+  animation: r3PerformanceBar 6s ease-in-out infinite;
+}
+
+@media (min-width: 1024px) {
+  .r3-float-performance {
+    animation-name: r3FloatPerformanceDesktop;
+  }
+}
+
+@media (max-width: 767px) {
+  .r3-float-code {
+    animation: none;
+  }
+
+  .r3-float-card {
+    will-change: auto;
+  }
+}
+
 .hover\:-translate-y-0\.5:hover{
   --tw-translate-y: -0.125rem;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
@@ -2339,3 +2506,4 @@ h3,
     line-height: 1;
   }
 }
+
