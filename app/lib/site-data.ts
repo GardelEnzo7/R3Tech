@@ -163,16 +163,48 @@ export const socialLinks = [
 
 export const serviceNames = solutionGroups.flatMap((group) => group.items.map((service) => service.title));
 
+export const organizationSchema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "@id": `${siteUrl}/#organization`,
+  name: brand.name,
+  url: siteUrl,
+  email: brand.email,
+  description:
+    "Desarrollo de software, páginas web, automatizaciones y soluciones IT para empresas y particulares.",
+  sameAs: [
+    "https://www.instagram.com/r3tech.ar/?hl=es",
+  ],
+};
+
+export const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": `${siteUrl}/#website`,
+  url: siteUrl,
+  name: brand.name,
+  publisher: {
+    "@id": `${siteUrl}/#organization`,
+  },
+  inLanguage: "es-AR",
+};
+
 export const professionalServiceSchema = {
   "@context": "https://schema.org",
   "@type": "ProfessionalService",
+  "@id": `${siteUrl}/#professional-service`,
   name: brand.name,
   slogan: brand.tagline,
   description:
-    "Desarrollo de páginas web, aplicaciones, tiendas online y soporte técnico profesional para empresas y particulares.",
+    "Desarrollo de páginas web, aplicaciones, tiendas online, automatización y soporte técnico profesional.",
   url: siteUrl,
-  areaServed: "Argentina",
+  areaServed: {
+    "@type": "Country",
+    name: "Argentina",
+  },
   email: brand.email,
-  sameAs: ["https://www.instagram.com/r3tech.ar/?hl=es", "https://github.com/", "https://linkedin.com/"],
+  sameAs: [
+    "https://www.instagram.com/r3tech.ar/?hl=es",
+  ],
   serviceType: serviceNames,
 };

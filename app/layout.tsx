@@ -117,27 +117,6 @@ export const metadata: Metadata = {
   },
 };
 
-const organizationSchema = {
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "Organization",
-      "@id": `${siteUrl}/#organization`,
-      name: brand.name,
-      url: siteUrl,
-      logo: `${siteUrl}/r3Tech-logo-transparent.webp`,
-      sameAs: ["https://www.instagram.com/r3tech.ar/?hl=es", "https://github.com/", "https://linkedin.com/"],
-    },
-    {
-      "@type": "WebSite",
-      "@id": `${siteUrl}/#website`,
-      url: siteUrl,
-      name: brand.name,
-      publisher: { "@id": `${siteUrl}/#organization` },
-    },
-  ],
-};
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -146,7 +125,6 @@ export default function RootLayout({
   return (
     <html lang="es" className={`${plusJakarta.variable} ${rajdhani.variable} scroll-smooth`}>
       <body>
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }} />
         {children}
           <Analytics />
           <Clarity />
