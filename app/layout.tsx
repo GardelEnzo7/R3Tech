@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { brand, siteUrl } from "./lib/site-data";
 import "./globals.css";
+import { Analytics } from "./components/analytics";
+import { Clarity } from "./components/clarity";
 
 const plusJakarta = localFont({
   variable: "--font-body",
@@ -145,6 +147,8 @@ export default function RootLayout({
       <body>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }} />
         {children}
+          <Analytics />
+          <Clarity />
       </body>
     </html>
   );
