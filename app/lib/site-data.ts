@@ -203,8 +203,18 @@ export const professionalServiceSchema = {
     name: "Argentina",
   },
   email: brand.email,
-  sameAs: [
-    "https://www.instagram.com/r3tech.ar/?hl=es",
-  ],
-  serviceType: serviceNames,
+sameAs: [
+  "https://www.instagram.com/r3tech.ar/?hl=es",
+],
+hasOfferCatalog: {
+  "@type": "OfferCatalog",
+  name: "Servicios",
+  itemListElement: serviceNames.map((service) => ({
+    "@type": "Offer",
+    itemOffered: {
+      "@type": "Service",
+      name: service,
+    },
+  })),
+}
 };
