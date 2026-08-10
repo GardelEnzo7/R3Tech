@@ -4,6 +4,7 @@ import { brand, siteUrl } from "./lib/site-data";
 import "./globals.css";
 import { Analytics } from "./components/analytics";
 import { Clarity } from "./components/clarity";
+import { Schema } from "./components/schema";
 
 const plusJakarta = localFont({
   variable: "--font-body",
@@ -149,6 +150,7 @@ export default function RootLayout({
         {children}
           <Analytics />
           <Clarity />
+          <Schema />
       </body>
     </html>
   );
