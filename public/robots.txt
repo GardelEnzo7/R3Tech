@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
-Sitemap: https://r3Tech.com/sitemap.xml
-Host: https://r3Tech.com
+Sitemap: https://r3tech.site/sitemap.xml
+Host: https://r3tech.site

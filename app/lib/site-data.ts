@@ -1,4 +1,4 @@
-export const siteUrl = "https://r3Tech.com";
+export const siteUrl = "https://r3tech.site";
 
 export const brand = {
   name: "R3 Tech",
