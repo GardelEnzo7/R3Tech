@@ -76,7 +76,7 @@ export function HeaderClient() {
             href={whatsappUrl}
             target="_blank"
             rel="noreferrer"
-            className="brand-type hidden items-center gap-2 rounded-full bg-blue-500 px-5 py-2.5 text-sm font-bold uppercase tracking-[0.08em] text-white transition hover:bg-blue-400 md:inline-flex"
+            className="brand-type hidden items-center gap-2 rounded-full bg-blue-600 px-5 py-2.5 text-sm font-bold uppercase tracking-[0.08em] text-white transition hover:bg-blue-500 md:inline-flex"
           >
             <WhatsAppIcon className="h-4 w-4" />
             WhatsApp

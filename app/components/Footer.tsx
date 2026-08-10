@@ -19,7 +19,7 @@ export function Footer() {
           <LogoImage size="md" className="mb-4" />
           <p className="brand-type text-3xl font-bold uppercase tracking-[0.08em] text-white">{brand.name}</p>
           <p className="mt-1 text-sm text-slate-400">{brand.tagline}</p>
-          <p className="mt-4 text-sm text-slate-500">© 2026 {brand.name}. Todos los derechos reservados.</p>
+          <p className="mt-4 text-sm text-slate-400">© 2026 {brand.name}. Todos los derechos reservados.</p>
         </div>
         <div className="flex items-center gap-3">
           {socialLinks.map((item) => {

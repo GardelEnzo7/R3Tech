@@ -58,11 +58,11 @@ const rajdhani = localFont({
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: `${brand.name} | Desarrollo de Software, Páginas Web y Soluciones IT`,
+    default: `${brand.name} | Software a Medida y Desarrollo Web`,
     template: `%s | ${brand.name}`,
   },
   description:
-    "Desarrollamos software a medida, páginas web, plataformas SaaS, tiendas online y automatizaciones para empresas. Soluciones tecnológicas modernas enfocadas en aumentar la productividad y el crecimiento.",
+    "Desarrollamos software a medida, páginas web, ecommerce y automatizaciones para empresas. Soluciones tecnológicas modernas con soporte profesional.",
   alternates: {
     canonical: siteUrl,
   },
