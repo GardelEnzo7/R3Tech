@@ -2,7 +2,7 @@ export const siteUrl = "https://r3tech.site";
 
 export const brand = {
   name: "R3 Tech",
-  tagline: "Software • Web • IT Solutions",
+  tagline: "Desarrollo Web y Software a Medida ",
   email: "r3tech24@gmail.com",
   location: "Rosario, Santa Fe, Argentina",
 };
